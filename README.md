@@ -113,6 +113,36 @@ driver.switch_to.frame(driver.find_element_by_id("프레임id"))
 
 <br>
 
+### 버튼 클릭 참고사항 ( 셀레니움으로 버튼클릭이 되지 않을 때 )
+```python
+'''
+셀레니움은 특정 버튼을 클릭할 때, 보이는 화면에서 좌표을 기반으로 클릭하게 됩니다.
+이 때 클릭해야 할 위치 위에 팝업창이 떠있다면, 'element not interactable' 라는 오류와 함께 클릭을 하지 못하는 상황이 발생합니다.
+
+위 문제를 해결할 수 있는 방법으로 두가지 방법이 있습니다.
+'''
+
+# solution_1 : 맨 처음부터 팝업창을 없앤다
+try:
+    driver.execute_script("""document.querySelector('팝업창을 끌 수 있는 i-button의 selector').click();""")
+except:
+    except Exception as e:
+    print(e)
+    continue
+    
+    
+# solution_2 : 내부에서 js 명령어를 통해 자체적으로 버튼 클릭 이벤트가 실행되도록 한다 ( 바로 위에 특정창이 있어도 클릭 이벤트 활성화 )
+try:
+    driver.execute_script(
+        """document.querySelector('버튼을 클릭할 수 있는 i-button의 selector').click();"""
+    )
+except:
+    except Exception as e:
+    print(e)
+    continue
+
+```
+
 <br>
 
 ## 3. Network Response 데이터 크롤링 ( 조회된 데이터 값들 뽑기 )
